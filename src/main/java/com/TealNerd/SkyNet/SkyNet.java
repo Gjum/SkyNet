@@ -9,6 +9,7 @@ import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -47,7 +48,17 @@ public class SkyNet {
     public static void onPlayerJoin(String player) {
         mc.thePlayer.addChatMessage(new TextComponentString(TextFormatting.DARK_AQUA + "[SkyNet] "+ TextFormatting.GRAY + player + " joined the game"));
     }
- 
+
+    @SubscribeEvent
+    public void onChat(ClientChatReceivedEvent event) {
+        try {
+            String msgText = event.getMessage().getUnformattedText();
+            if (msgText.contains(" joined the game") || msgText.contains(" left the game")) {
+                event.setCanceled(true);
+            }
+        } catch (NullPointerException e) {}
+    }
+
     @SubscribeEvent
     public void onTick(ClientTickEvent event) {
         if(event.phase == TickEvent.Phase.START) {
