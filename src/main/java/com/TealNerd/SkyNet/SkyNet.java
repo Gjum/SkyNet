@@ -3,7 +3,7 @@ package com.TealNerd.SkyNet;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
- 
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.settings.KeyBinding;
@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
- 
+
 import org.lwjgl.input.Keyboard;
  
 @Mod(modid="skynet", name="SkyNet", version="1.2.0")
@@ -52,11 +52,16 @@ public class SkyNet {
     @SubscribeEvent
     public void onChat(ClientChatReceivedEvent event) {
         try {
-            String msgText = event.getMessage().getUnformattedText();
-            if (msgText.contains(" joined the game") || msgText.contains(" left the game")) {
-                event.setCanceled(true);
+            TextFormatting color = event.getMessage().getSiblings().get(0).getStyle().getColor();
+            if (color == TextFormatting.YELLOW) {
+                String msgText = event.getMessage().getUnformattedText();
+                if (msgText.endsWith(" joined the game") || msgText.endsWith(" left the game")) {
+                    event.setCanceled(true);
+                }
             }
-        } catch (NullPointerException e) {}
+        } catch (IndexOutOfBoundsException ignored) {
+        } catch (NullPointerException ignored) {
+        }
     }
 
     @SubscribeEvent
