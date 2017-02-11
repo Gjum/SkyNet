@@ -42,19 +42,19 @@ public class SkyNet {
         return TextFormatting.getTextWithoutFormattingCodes(s);
     }
    
-    public static void onPlayerLeave(String player) {
-        showMessage(player + " left the game");
-    }
-   
     public static void onPlayerJoin(String player) {
-        showMessage(player + " joined the game");
+        showMessage(player, "joined", TextFormatting.DARK_GREEN);
     }
 
-    private static void showMessage(String text) {
+    public static void onPlayerLeave(String player) {
+        showMessage(player, "left", TextFormatting.GRAY);
+    }
+
+    private static void showMessage(String player, String action, TextFormatting actionColor) {
         mc.thePlayer.addChatMessage(new TextComponentString("[SkyNet] ")
                 .setStyle(new Style().setColor(TextFormatting.DARK_AQUA))
-                .appendSibling(new TextComponentString(text)
-                        .setStyle(new Style().setColor(TextFormatting.GRAY))));
+                .appendSibling(new TextComponentString(String.format("%s %s the game", player, action))
+                        .setStyle(new Style().setColor(actionColor))));
     }
 
     @SubscribeEvent
