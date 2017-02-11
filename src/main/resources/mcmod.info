@@ -3,7 +3,7 @@
   "modid": "skynet",
   "name": "SkyNet",
   "description": "Player join alerts",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "mcversion": "1.10",
   "url": "",
   "updateUrl": "",
