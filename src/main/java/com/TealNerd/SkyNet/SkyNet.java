@@ -1,5 +1,5 @@
 package com.TealNerd.SkyNet;
- 
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -7,6 +7,7 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
@@ -42,11 +43,18 @@ public class SkyNet {
     }
    
     public static void onPlayerLeave(String player) {
-        mc.thePlayer.addChatMessage(new TextComponentString(TextFormatting.DARK_AQUA + "[SkyNet] "+ TextFormatting.GRAY + player + " left the game"));
+        showMessage(player + " left the game");
     }
    
     public static void onPlayerJoin(String player) {
-        mc.thePlayer.addChatMessage(new TextComponentString(TextFormatting.DARK_AQUA + "[SkyNet] "+ TextFormatting.GRAY + player + " joined the game"));
+        showMessage(player + " joined the game");
+    }
+
+    private static void showMessage(String text) {
+        mc.thePlayer.addChatMessage(new TextComponentString("[SkyNet] ")
+                .setStyle(new Style().setColor(TextFormatting.DARK_AQUA))
+                .appendSibling(new TextComponentString(text)
+                        .setStyle(new Style().setColor(TextFormatting.GRAY))));
     }
 
     @SubscribeEvent
