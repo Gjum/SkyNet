@@ -77,7 +77,13 @@ public class SkyNet {
     public void onTick(ClientTickEvent event) {
         if(event.phase == TickEvent.Phase.START) {
             if(SkyNet.isEnabled) {
-                if(mc.world != null) {
+                if(mc.getConnection() == null || mc.getConnection().getPlayerInfoMap() == null){
+                    return;
+                }
+                if(mc.getConnection().getPlayerInfoMap().size() <= 0) {
+                    justLoggedIn = true;
+                }
+                if(mc.world != null && mc.getConnection().getPlayerInfoMap().size() > 1) {
                     ArrayList<String> playerList = new ArrayList<String>();
                     Collection<NetworkPlayerInfo> players = mc.getConnection().getPlayerInfoMap();
                     for(Object o : players) {
@@ -99,9 +105,6 @@ public class SkyNet {
                     }
                     SkyNet.previousPlayerList = temp;
                     justLoggedIn = false;
-                }
-                if(mc.world == null) {
-                    justLoggedIn = true;
                 }
             }
         }
