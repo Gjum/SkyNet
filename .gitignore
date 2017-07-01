@@ -2,3 +2,7 @@
 /build/
 /classes/
 /run/
+/.idea
+/*.iml
+/*.ipr
+/*.iws

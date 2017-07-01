@@ -23,7 +23,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 
 import org.lwjgl.input.Keyboard;
  
-@Mod(modid="skynet", name="SkyNet", version="1.3.1")
+@Mod(modid="skynet", name="SkyNet", version="1.4.0")
 public class SkyNet {
    
     static Minecraft mc = Minecraft.getMinecraft();
@@ -51,10 +51,11 @@ public class SkyNet {
     }
 
     private static void showMessage(String player, String action, TextFormatting actionColor) {
-        mc.thePlayer.addChatMessage(new TextComponentString("[SkyNet] ")
+        mc.player.sendMessage(new TextComponentString("[SkyNet] ")
                 .setStyle(new Style().setColor(TextFormatting.DARK_AQUA))
                 .appendSibling(new TextComponentString(String.format("%s %s the game", player, action))
-                        .setStyle(new Style().setColor(actionColor))));
+                .setStyle(new Style().setColor(actionColor)))
+        );
     }
 
     @SubscribeEvent
@@ -76,7 +77,7 @@ public class SkyNet {
     public void onTick(ClientTickEvent event) {
         if(event.phase == TickEvent.Phase.START) {
             if(SkyNet.isEnabled) {
-                if(mc.theWorld != null) {      
+                if(mc.world != null) {
                 ArrayList<String> playerList = new ArrayList<String>();
                 Collection<NetworkPlayerInfo> players = mc.getConnection().getPlayerInfoMap();
                 for(Object o : players) {
@@ -104,11 +105,11 @@ public class SkyNet {
     public void onKeyInput(InputEvent.KeyInputEvent event) {
         if(SkyNet.toggle.isPressed()){
             if(!SkyNet.isEnabled){
-            mc.thePlayer.addChatMessage(new TextComponentString(TextFormatting.DARK_AQUA + "[SkyNet] "+ TextFormatting.GRAY + "SkyNet Enabled"));
-            SkyNet.isEnabled = true;
-            }else if(SkyNet.isEnabled){
-            mc.ingameGUI.getChatGUI().printChatMessage(new TextComponentString(TextFormatting.DARK_AQUA + "[SkyNet] "+ TextFormatting.GRAY + "SkyNet Disabled"));
-            SkyNet.isEnabled = false;
+                mc.player.sendMessage(new TextComponentString(TextFormatting.DARK_AQUA + "[SkyNet] "+ TextFormatting.GRAY + "SkyNet Enabled"));
+                SkyNet.isEnabled = true;
+            } else if(SkyNet.isEnabled) {
+                mc.ingameGUI.getChatGUI().printChatMessage(new TextComponentString(TextFormatting.DARK_AQUA + "[SkyNet] "+ TextFormatting.GRAY + "SkyNet Disabled"));
+                SkyNet.isEnabled = false;
             }
         }              
     }

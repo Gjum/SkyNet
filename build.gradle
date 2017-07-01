@@ -1,20 +1,11 @@
-
-// For those who want the bleeding edge
 buildscript {
     repositories {
-        mavenCentral()
         jcenter()
-        maven {
-            name = 'forge'
-            url = 'http://files.minecraftforge.net/maven'
-        }
-        maven {
-            name = 'sonatype'
-            url = 'https://oss.sonatype.org/content/repositories/snapshots/'
-        }
+        maven { url = "http://files.minecraftforge.net/maven" }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath 'org.ajoberstar:grgit:1.1.0'
     }
 }
 
@@ -29,10 +20,8 @@ version = "${project.version_minecraft}-${modversion}"
 compileJava.options.encoding = 'UTF-8'
 
 minecraft {
-    version = "${project.version_minecraft}-${project.version_forge}"
-
-    if (project.hasProperty('version_mappings'))
-        mappings = project.version_mappings
+    version = "${project.version_forge}"
+	mappings = "${version_mappings}"
 
     if (!project.hasProperty('run_location'))
         runDir = 'run'
